@@ -1,0 +1,42 @@
+// ==UserScript==
+// @name         Replace deadname with correct name
+// @namespace    http://tampermonkey.net/
+// @version      0.1
+// @description  Replaces deadname with preferred  on web pages
+// @author       You
+// @match        *://*/*
+// @grant        none
+// @run-at       document-end
+// ==/UserScript==
+
+(function() {
+    'use strict';
+
+    function replaceText(node) {
+        if (node.nodeType === Node.TEXT_NODE) {
+            if (node.nodeValue.includes("your deadname")) {
+                node.nodeValue = node.nodeValue.replace(/your deadname/g, "your preferred name ");
+            }
+        } else {
+            for (let child of node.childNodes) {
+                replaceText(child);
+            }
+        }
+    }
+
+    replaceText(document.body);
+
+    // Observer to handle dynamically loaded content
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            mutation.addedNodes.forEach((newNode) => {
+                replaceText(newNode);
+            });
+        });
+    });
+
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
+})();
