@@ -3,7 +3,7 @@
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  Replaces deadname with preferred  on web pages
-// @author       You
+// @author       Auri (github.com/imlayered/deadname-deleter)
 // @match        *://*/*
 // @grant        none
 // @run-at       document-end
